@@ -37,8 +37,9 @@ system_git_clone() {
 
   sleep 2
 
+  #git clone -b correta https://lucassaud:${token_code}@github.com/AutoAtende/AutoAtende3.git /home/deploy/${instancia_add}
 sudo su - deploy <<EOF
-  git clone -b correta https://lucassaud:${token_code}@github.com/AutoAtende/AutoAtende3.git /home/deploy/${instancia_add}
+  git clone -b correta https://github.com/durunda/whats-app-install.git /home/deploy/${instancia_add}
 EOF
 
   sleep 2
