@@ -17,13 +17,6 @@ ip_atual=$(curl -s http://checkip.amazonaws.com)
 jwt_secret=$(openssl rand -base64 32)
 jwt_refresh_secret=$(openssl rand -base64 32)
 
-if [ "$EUID" -ne 0 ]; then
-  echo
-  printf "${WHITE} >> Este script precisa ser executado como root ${RED}ou com privilégios de superusuário${WHITE}.\n"
-  echo
-  sleep 2
-  exit 1
-fi
 
 banner() {
   printf " ${BLUE}"
