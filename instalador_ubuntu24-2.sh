@@ -17,13 +17,14 @@ ip_atual=$(curl -s http://checkip.amazonaws.com)
 jwt_secret=$(openssl rand -base64 32)
 jwt_refresh_secret=$(openssl rand -base64 32)
 
-if [ "$EUID" -ne 0 ]; then
-  echo
-  printf "${WHITE} >> Este script precisa ser executado como root ${RED}ou com privilégios de superusuário${WHITE}.\n"
-  echo
-  sleep 2
-  exit 1
-fi
+
+#if [ "$EUID" -ne 0 ]; then
+#  echo
+#  printf "${WHITE} >> Este script precisa ser executado como root ${RED}ou com privilégios de superusuário${WHITE}.\n"
+#  echo
+#  sleep 2
+#  exit 1
+#fi
 
 banner() {
   printf " ${BLUE}"
@@ -240,7 +241,7 @@ instalacao_base() {
     salvar_etapa 14
   fi
   if [ "$etapa" -le "14" ]; then
-    codifica_clone_base || trata_erro "codifica_clone_base"
+    #codifica_clone_base || trata_erro "codifica_clone_base"
     baixa_codigo_base || trata_erro "baixa_codigo_base"
     salvar_etapa 15
   fi
@@ -413,7 +414,7 @@ questoes_variaveis_base() {
   printf "${WHITE} >> Digite seu TOKEN de acesso pessoal do GitHub: \n"
   printf "${WHITE} >> Passo a Passo para gerar o seu TOKEN no link ${BLUE}https://bit.ly/token-github ${WHITE} \n"
   echo
-  read -p "> " github_token
+  read -p "> " github_url
   echo
   # DEFINE LINK REPO GITHUB
   banner
@@ -972,17 +973,17 @@ EOF
   } || trata_erro "instala_git_base"
 }
 
-# Função para codificar URL de clone
-codifica_clone_base() {
-  local length="${#1}"
-  for ((i = 0; i < length; i++)); do
-    local c="${1:i:1}"
-    case $c in
-      [a-zA-Z0-9.~_-]) printf '%s' "$c" ;;
-      *) printf '%%%02X' "'$c" | sed "s/'//g" ;;
-    esac
-  done
-  echo
+## Função para codificar URL de clone
+#codifica_clone_base() {
+#  local length="${#1}"
+#  for ((i = 0; i < length; i++)); do
+#    local c="${1:i:1}"
+#    case $c in
+#      [a-zA-Z0-9.~_-]) printf '%s' "$c" ;;
+#      *) printf '%%%02X' "'$c" | sed "s/'//g" ;;
+#    esac
+#  done
+#  echo
 }
 
 # Clona código de repo privado
@@ -991,13 +992,14 @@ baixa_codigo_base() {
   printf "${WHITE} >> Fazendo download do ${nome_titulo}...\n"
   echo
   {
-    if [ -z "${repo_url}" ] || [ -z "${github_token}" ]; then
-      printf "${WHITE} >> Erro: URL do repositório ou token do GitHub não definidos.\n"
-      exit 1
-    fi
-
-    github_token_encoded=$(codifica_clone_base "${github_token}")
-    github_url=$(echo ${repo_url} | sed "s|https://|https://${github_token_encoded}@|")
+    #if [ -z "${repo_url}" ] || [ -z "${github_token}" ]; then
+    #  printf "${WHITE} >> Erro: URL do repositório ou token do GitHub não definidos.\n"
+    #  exit 1
+    #fi
+	
+	# eduardo
+    #github_token_encoded=$(codifica_clone_base "${github_token}")
+    #github_url=$(echo ${repo_url} | sed "s|https://|https://${github_token_encoded}@|")
 
     dest_dir="/home/deploy/${empresa}/"
 
