@@ -984,7 +984,7 @@ EOF
 #    esac
 #  done
 #  echo
-}
+#}
 
 # Clona código de repo privado
 baixa_codigo_base() {
