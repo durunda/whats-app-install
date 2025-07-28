@@ -17,6 +17,13 @@ ip_atual=$(curl -s http://checkip.amazonaws.com)
 jwt_secret=$(openssl rand -base64 32)
 jwt_refresh_secret=$(openssl rand -base64 32)
 
+if [ "$EUID" -ne 0 ]; then
+  echo
+  printf "${WHITE} >> Este script precisa ser executado como root ${RED}ou com privilégios de superusuário${WHITE}.\n"
+  echo
+  sleep 2
+  exit 1
+fi
 
 banner() {
   printf " ${BLUE}"
@@ -31,12 +38,6 @@ banner() {
   printf "\n\n"
 }
 
-# Função para manipular erros e encerrar o script
-trata_erro() {
-  printf "${RED}Erro encontrado na etapa $1. Encerrando o script.${WHITE}\n"
-  salvar_etapa "$1"
-  exit 1
-}
 
 # Salvar variáveis
 salvar_variaveis() {
@@ -977,10 +978,11 @@ codifica_clone_base() {
   for ((i = 0; i < length; i++)); do
     local c="${1:i:1}"
     case $c in
-    [a-zA-Z0-9.~_-]) printf "$c" ;;
-    *) printf '%%%02X' "'$c" ;;
+      [a-zA-Z0-9.~_-]) printf '%s' "$c" ;;
+      *) printf '%%%02X' "'$c" | sed "s/'//g" ;;
     esac
   done
+  echo
 }
 
 # Clona código de repo privado
