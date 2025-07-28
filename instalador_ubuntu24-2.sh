@@ -65,7 +65,7 @@ carregar_variaveis() {
   if [ -f $ARQUIVO_VARIAVEIS ]; then
     source $ARQUIVO_VARIAVEIS
   else
-    empresa="autoatende"
+    empresa="empresa"
     nome_titulo="AutoAtende"
   fi
 }
@@ -499,6 +499,7 @@ dados_instalacao_base() {
   printf "   ${WHITE}Seu Email: ------------->> ${YELLOW}${email_deploy}\n"
   printf "   ${WHITE}Nome da Empresa: ------->> ${YELLOW}${empresa}\n"
   printf "   ${WHITE}Senha Deploy: ---------->> ${YELLOW}${senha_deploy}\n"
+  printf "   ${WHITE}URL TOken GIT: --------->> ${YELLOW}${github_url}\n"
   # printf "   ${WHITE}Subdominio Perfex: ----->> ${YELLOW}${subdominio_perfex}\n"
   printf "   ${WHITE}Senha Master: ---------->> ${YELLOW}${senha_master}\n"
   printf "   ${WHITE}Titulo da Aplicação: --->> ${YELLOW}${nome_titulo}\n"
@@ -991,6 +992,8 @@ baixa_codigo_base() {
   banner
   printf "${WHITE} >> Fazendo download do ${nome_titulo}...\n"
   echo
+  read -p "> " github_url
+  echo
   {
     #if [ -z "${repo_url}" ] || [ -z "${github_token}" ]; then
     #  printf "${WHITE} >> Erro: URL do repositório ou token do GitHub não definidos.\n"
@@ -1000,6 +1003,9 @@ baixa_codigo_base() {
 	# eduardo
     #github_token_encoded=$(codifica_clone_base "${github_token}")
     #github_url=$(echo ${repo_url} | sed "s|https://|https://${github_token_encoded}@|")
+
+
+
 
     dest_dir="/home/deploy/${empresa}/"
 
