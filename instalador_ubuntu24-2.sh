@@ -1621,4 +1621,4 @@ instalar_transcricao_audio_nativa() {
 }
 
 carregar_variaveis
-menu0
+menu
